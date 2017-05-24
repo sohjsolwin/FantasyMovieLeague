@@ -73,7 +73,8 @@ class Team < ActiveRecord::Base
         'rank' => 0,
         'player' => { 'id' => p.id, 'long_name' => p.long_name, 'short_name' => p.short_name },
         'pct_in_use' => 0,
-        'revenue' => 0
+        'revenue' => 0,
+        'revenue_per_share' => 0
       }
 
       ms.each do |m|
@@ -84,6 +85,7 @@ class Team < ActiveRecord::Base
         if !this_movie_gross.nil? && !this_movie_gross.zero?
           this_player['revenue'] += s.nil? ? 0 : s.num_shares.to_f / total_shares * this_movie_gross
           this_player['pct_in_use'] += s.num_shares if (m.release_date + 1.days) < DateTime.now
+          this_player['revenue_per_share'] += s.nil? ? 0 : this_player['revenue'] / this_player['pct_in_use']
         end
       end
 
