@@ -21,4 +21,8 @@ class Ranking
   attr_reader :pct_in_use
 
   attr_writer :pct_in_use
+  
+  attr_reader :revenue_per_share
+
+  attr_writer :revenue_per_share
 end
