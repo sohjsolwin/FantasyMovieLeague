@@ -92,12 +92,13 @@ $(function(){
     $("#tblStandings").jqGrid({
     datatype: 'json',
 	mtype: 'GET',
-    colNames:['Rank', 'Player', '% Used', 'Revenue'],
+    colNames:['Rank', 'Player', '% Used', 'Revenue', '$/Share'],
     colModel :[ 
 	  {name:'rank', index:'rank', sorttype:'int', width:50},
 	  {name:'player', index:'player', width:280, formatter:function(v,a,b){return v.long_name;}},
 	  {name:'pct_in_use', align:'right', index:'pct_in_use', width:60},
-      {name:'revenue', align:'right', classes:'tbl_bold', index:'revenue', width:120, formatter:formatMoneyFull}
+          {name:'revenue', align:'right', classes:'tbl_bold', index:'revenue', width:120, formatter:formatMoneyFull},
+	  {name:'revenue_per_share', align:'right', index:'revenue_per_share', width:60}
     ],	
     rowNum:100,
 	url: '/api/rankings/<%= params[:team] %><%= show_season ? "?season=%s" % @seasons[:selected_season].slug : "" %>',
