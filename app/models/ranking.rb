@@ -3,6 +3,7 @@ class Ranking
   @player = ''
   @revenue = ''
   @pct_in_use = 0
+  @revenue_per_share = 0
 
   attr_reader :rank
 
