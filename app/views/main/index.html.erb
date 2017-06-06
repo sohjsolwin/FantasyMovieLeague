@@ -9,7 +9,7 @@ function formatMoney(cell, options, row) {
 	if (typeof cell == "undefined")
 		return "";
 		
-	var a = parseFloat(cell.earning) || 0;
+	var a = parseFloat(cell.earning || cell) || 0;
 	if (a == 0)
 		return (cell.shares || 0) > 0 ? cell.shares : "";
 	
