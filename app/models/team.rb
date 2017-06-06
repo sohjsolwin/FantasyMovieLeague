@@ -77,17 +77,20 @@ class Team < ActiveRecord::Base
         'revenue_per_share' => 0
       }
 
+      playerTotalSharesUsed = 0
       ms.each do |m|
         this_movie_gross = m.earnings.empty? ? 0 : m.earnings.max_by(&:created_at).gross
         total_shares = m.shares.where(player_id: players).sum(:num_shares)
         s = p.shares.find { |a| a.movie_id == m.id }
-
+        
         if !this_movie_gross.nil? && !this_movie_gross.zero?
           this_player['revenue'] += s.nil? ? 0 : s.num_shares.to_f / total_shares * this_movie_gross
           this_player['pct_in_use'] += s.num_shares if (m.release_date + 1.days) < DateTime.now
-          this_player['revenue_per_share'] += s.nil? ? 0 : this_player['revenue'] / this_player['pct_in_use']
+          playerTotalSharesUsed += (s.nil? ? 0 : s.num_shares) if (m.release_date + 1.days) < DateTime.now
         end
       end
+      
+      this_player['revenue_per_share'] = this_player['revenue'] / playerTotalSharesUsed if (playerTotalSharesUsed > 0)
 
       if best_movies.include? p[:bonus1]
         this_player['revenue'] += season.bonus_amount
